@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "792866338428",
+    "project_id": "chatwpclone",
+    "storage_bucket": "chatwpclone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792866338428:android:c35a040bbd76367a2ffbf9",
+        "android_client_info": {
+          "package_name": "com.clonewp.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792866338428-77qi7j30q712d5jajc5sljh01pv2q2ef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYP_VpUNzEINNOqPmhaD0jSdjr7rypsEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792866338428-77qi7j30q712d5jajc5sljh01pv2q2ef.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
