@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:wp_clone_provider/core/screens/conversation_page.dart';
 
 class ChatsPage extends StatelessWidget {
+  final String userId = "NVkLyG33bfgi0O17JCG2VeXQ3n73";
   const ChatsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("chats").snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("conversations")
+            .where("members", arrayContains: userId)
+            .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
           if (snap.hasError) {
             return Text(" Bir Hata Alındı ${snap.error}");
@@ -28,8 +32,8 @@ class ChatsPage extends StatelessWidget {
                       backgroundImage: NetworkImage(
                           "https://dolphinkaravan.com.tr/wp-content/uploads/2019/12/bay-icon.jpg"),
                     ),
-                    title: Text(doc["name"]),
-                    subtitle: Text(doc["message"]),
+                    title: Text("Bcan"),
+                    subtitle: Text(doc["displayMessage"]),
                     trailing: Column(
                       children: [
                         const Text("12:23"),
