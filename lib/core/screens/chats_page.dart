@@ -22,8 +22,35 @@ class ChatsPage extends StatelessWidget {
           return ListView(
             children: snap.data!.docs
                 .map((doc) => ListTile(
+                      leading: const CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://dolphinkaravan.com.tr/wp-content/uploads/2019/12/bay-icon.jpg"),
+                      ),
                       title: Text(doc["name"]),
                       subtitle: Text(doc["message"]),
+                      trailing: Column(
+                        children: [
+                          Text("12:23"),
+                          Container(
+                            width: 20,
+                            height: 20,
+                            margin: const EdgeInsets.only(top: 8),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Theme.of(context).primaryColor),
+                            child: const Center(
+                              child: Text(
+                                "12",
+                                textScaleFactor: 0.8,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ))
                 .toList(),
           );

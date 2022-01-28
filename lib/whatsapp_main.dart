@@ -34,9 +34,13 @@ class _WhatsAppMainState extends State<WhatsAppMain>
           child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
-                const SliverAppBar(
+                SliverAppBar(
                   floating: true,
                   title: Text("WhatsApp Clone"),
+                  actions: [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+                  ],
                 ),
               ];
             },
