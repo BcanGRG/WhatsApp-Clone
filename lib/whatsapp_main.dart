@@ -28,29 +28,50 @@ class _WhatsAppMainState extends State<WhatsAppMain>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("WhatsApp Clone"),
-        bottom: TabBar(controller: _tabController, tabs: const [
-          Tab(
-            icon: Icon(Icons.camera),
+      body: Container(
+        color: Theme.of(context).primaryColor,
+        child: SafeArea(
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                const SliverAppBar(
+                  floating: true,
+                  title: Text("WhatsApp Clone"),
+                ),
+              ];
+            },
+            body: Column(
+              children: [
+                TabBar(controller: _tabController, tabs: const [
+                  Tab(
+                    icon: Icon(Icons.camera),
+                  ),
+                  Tab(
+                    text: "Chats",
+                  ),
+                  Tab(
+                    text: "Status",
+                  ),
+                  Tab(
+                    text: "Calls",
+                  ),
+                ]),
+                Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: TabBarView(controller: _tabController, children: [
+                      CameraPage(),
+                      ChatsPage(),
+                      StatusPage(),
+                      CallsPage(),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Tab(
-            text: "Chats",
-          ),
-          Tab(
-            text: "Status",
-          ),
-          Tab(
-            text: "Calls",
-          ),
-        ]),
+        ),
       ),
-      body: TabBarView(controller: _tabController, children: [
-        CameraPage(),
-        ChatsPage(),
-        StatusPage(),
-        CallsPage(),
-      ]),
       floatingActionButton: _showMessage
           ? FloatingActionButton(
               onPressed: () {},
