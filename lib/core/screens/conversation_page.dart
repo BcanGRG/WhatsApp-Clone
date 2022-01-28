@@ -1,7 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ConversationPage extends StatelessWidget {
-  const ConversationPage({Key? key}) : super(key: key);
+class ConversationPage extends StatefulWidget {
+  final String userId;
+  final String conversationId;
+  const ConversationPage({
+    Key? key,
+    required this.userId,
+    required this.conversationId,
+  }) : super(key: key);
+
+  @override
+  State<ConversationPage> createState() => _ConversationPageState();
+}
+
+class _ConversationPageState extends State<ConversationPage> {
+  final TextEditingController _editingController = TextEditingController();
+  late CollectionReference _ref;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _ref = FirebaseFirestore.instance
+        .collection("conversations/${widget.conversationId}/messages");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,28 +77,37 @@ class ConversationPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Align(
-                        alignment: index % 2 == 0
-                            ? Alignment.centerLeft
-                            : Alignment.centerRight,
-                        child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColorDark,
-                                borderRadius: const BorderRadius.horizontal(
-                                  left: Radius.circular(10),
-                                  right: Radius.circular(10),
-                                )),
-                            child: Text(
-                              "Deneme Mesajı",
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      ),
-                    );
+              child: StreamBuilder<QuerySnapshot>(
+                  stream:
+                      _ref.orderBy("timeStamp", descending: false).snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    return !snapshot.hasData
+                        ? CircularProgressIndicator()
+                        : ListView(
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                            return ListTile(
+                              title: Align(
+                                alignment: widget.userId != document["senderId"]
+                                    ? Alignment.centerLeft
+                                    : Alignment.centerRight,
+                                child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                          left: Radius.circular(10),
+                                          right: Radius.circular(10),
+                                        )),
+                                    child: Text(
+                                      "${document["message"]}",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            );
+                          }).toList());
                   }),
             ),
             Row(
@@ -91,7 +122,7 @@ class ConversationPage extends StatelessWidget {
                         right: Radius.circular(25),
                       )),
                   child: Row(
-                    children: const [
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: InkWell(
@@ -102,6 +133,7 @@ class ConversationPage extends StatelessWidget {
                       ),
                       Expanded(
                         child: TextField(
+                          controller: _editingController,
                           decoration: InputDecoration(
                               hintText: "Type a Message",
                               border: InputBorder.none),
@@ -125,8 +157,15 @@ class ConversationPage extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: Theme.of(context).primaryColorDark),
                   child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.mic, color: Colors.white),
+                    onPressed: () async {
+                      await _ref.add({
+                        "senderId": widget.userId,
+                        "message": _editingController.text,
+                        "timeStamp": DateTime.now(),
+                      });
+                      _editingController.text = "";
+                    },
+                    icon: const Icon(Icons.send, color: Colors.white),
                   ),
                 ),
               ],
