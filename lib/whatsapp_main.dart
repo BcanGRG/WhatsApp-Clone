@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wp_clone_provider/core/screens/calls_page.dart';
-import 'package:wp_clone_provider/core/screens/camera_page.dart';
-import 'package:wp_clone_provider/core/screens/chats_page.dart';
-import 'package:wp_clone_provider/core/screens/status_page.dart';
+import 'package:wp_clone_provider/screens/calls_page.dart';
+import 'package:wp_clone_provider/screens/camera_page.dart';
+import 'package:wp_clone_provider/screens/chats_page.dart';
+import 'package:wp_clone_provider/screens/status_page.dart';
 
 class WhatsAppMain extends StatefulWidget {
   WhatsAppMain({Key? key}) : super(key: key);

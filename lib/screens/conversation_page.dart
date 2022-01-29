@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ConversationPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class ConversationPage extends StatefulWidget {
 
 class _ConversationPageState extends State<ConversationPage> {
   final TextEditingController _editingController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   late CollectionReference _ref;
   @override
   void initState() {
@@ -84,30 +86,32 @@ class _ConversationPageState extends State<ConversationPage> {
                     return !snapshot.hasData
                         ? CircularProgressIndicator()
                         : ListView(
+                            controller: _scrollController,
                             children: snapshot.data!.docs
                                 .map((DocumentSnapshot document) {
-                            return ListTile(
-                              title: Align(
-                                alignment: widget.userId != document["senderId"]
-                                    ? Alignment.centerLeft
-                                    : Alignment.centerRight,
-                                child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Theme.of(context).primaryColorDark,
-                                        borderRadius:
-                                            const BorderRadius.horizontal(
-                                          left: Radius.circular(10),
-                                          right: Radius.circular(10),
-                                        )),
-                                    child: Text(
-                                      "${document["message"]}",
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              ),
-                            );
-                          }).toList());
+                              return ListTile(
+                                title: Align(
+                                  alignment:
+                                      widget.userId != document["senderId"]
+                                          ? Alignment.centerLeft
+                                          : Alignment.centerRight,
+                                  child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
+                                          borderRadius:
+                                              const BorderRadius.horizontal(
+                                            left: Radius.circular(10),
+                                            right: Radius.circular(10),
+                                          )),
+                                      child: Text(
+                                        "${document["message"]}",
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                ),
+                              );
+                            }).toList());
                   }),
             ),
             Row(
@@ -163,6 +167,12 @@ class _ConversationPageState extends State<ConversationPage> {
                         "message": _editingController.text,
                         "timeStamp": DateTime.now(),
                       });
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 200),
+                      );
+
                       _editingController.text = "";
                     },
                     icon: const Icon(Icons.send, color: Colors.white),

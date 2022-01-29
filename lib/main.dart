@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:wp_clone_provider/core/locator.dart';
 import 'package:wp_clone_provider/whatsapp_main.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocators();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
