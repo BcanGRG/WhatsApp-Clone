@@ -48,7 +48,7 @@ class _WhatsAppMainState extends State<WhatsAppMain>
               children: [
                 TabBar(controller: _tabController, tabs: const [
                   Tab(
-                    icon: Icon(Icons.camera),
+                    icon: Icon(Icons.camera_alt),
                   ),
                   Tab(
                     text: "Chats",
