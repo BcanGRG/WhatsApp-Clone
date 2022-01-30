@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wp_clone_provider/models/conversation.dart';
 
-class FirestoreDb {
+class ChatService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<List<Conversation>> getConversations(String userId) {

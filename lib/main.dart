@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wp_clone_provider/core/locator.dart';
+import 'package:wp_clone_provider/screens/sign_in_page.dart';
 import 'package:wp_clone_provider/whatsapp_main.dart';
 
 void main() async {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: WhatsAppMain(),
+      home: SignInPage(),
     );
   }
 }

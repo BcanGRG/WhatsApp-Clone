@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:wp_clone_provider/core/locator.dart';
 import 'package:wp_clone_provider/models/conversation.dart';
 import 'package:wp_clone_provider/screens/conversation_page.dart';
 import 'package:wp_clone_provider/viewmodels/chats_model.dart';
@@ -12,7 +11,7 @@ class ChatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var model = GetIt.instance<ChatsModel>();
+    var model = getIt<ChatsModel>();
     return ChangeNotifierProvider(
       create: (BuildContext context) => model,
       child: StreamBuilder<List<Conversation>>(
